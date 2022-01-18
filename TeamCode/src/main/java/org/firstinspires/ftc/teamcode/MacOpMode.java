@@ -19,10 +19,15 @@ import com.qualcomm.robotcore.util.Range;
     double rightForwardPower;
     double leftBackwardPower;
     double rightBackwardPower;
+    double DJPower;
     final double CLAWINCREMENT = 0.2;
 
-    double powerMultiplier =0.5;
-    double MAX_POWER=1.0;
+    boolean startWheel = false;
+    boolean stopWheel = true;
+
+    double powerMultiplier = 0.5;
+    double DJPowerMultiplier = 0.8;
+    double MAX_POWER = 1.0;
 
     // private Servo grabber = null;
     @Override
@@ -48,7 +53,7 @@ import com.qualcomm.robotcore.util.Range;
         while (opModeIsActive()) {
             // Setup a variable for each drive wheel to save power level for telemetry
 
-            driveMacChasis();
+            driveMacChasis();  DJMove();
             telemetry.update();
 
         }
@@ -69,6 +74,7 @@ import com.qualcomm.robotcore.util.Range;
         double powerMultiplier = 0.7;
 
         boolean driveStop = false;
+
 
         if ((gamepad1.left_stick_y == 0) && (gamepad1.right_stick_y == 0) && (gamepad1.left_stick_x == 0) && (gamepad1.right_stick_x == 0))
             driveStop = true;
@@ -150,7 +156,40 @@ import com.qualcomm.robotcore.util.Range;
         telemetry.addData("Motors Backward", "left (%.2f), right (%.2f)", leftBackwardPower, rightBackwardPower);
 
     }
+
+    public void DJMove() {
+
+        boolean toggleIntakePressed = gamepad1.y;
+
+        if (toggleIntakePressed ) {
+
+            if (startWheel) { //Intake is already running. So Sto
+                stopWheel = true;
+                startWheel = false;
+
+            } else { //the Intake is not running. So Start it.
+                startWheel = true;
+                stopWheel = false;
+            }
+
+            DJPower = this.robot.DJ.getPower();
+
+            if (stopWheel) { //checking the power of the motors
+                robot.DJ.setPower(0);
+                telemetry.addData("Status", "Stopping spin..");
+            }
+            if (startWheel) {
+                robot.DJ.setPower(-powerMultiplier);
+                telemetry.addData("Status", "Starting spin..");
+            }
+
+            telemetry.update();
+
         }
+
+
+    }
+}
 
 
 
