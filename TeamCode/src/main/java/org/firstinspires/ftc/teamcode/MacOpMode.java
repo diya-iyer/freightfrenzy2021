@@ -53,7 +53,9 @@ import com.qualcomm.robotcore.util.Range;
         while (opModeIsActive()) {
             // Setup a variable for each drive wheel to save power level for telemetry
 
-            driveMacChasis();  DJMove();
+            driveMacChasis();
+            DJMove();
+            armMove();
             telemetry.update();
 
         }
@@ -186,6 +188,26 @@ import com.qualcomm.robotcore.util.Range;
             telemetry.update();
 
         }
+
+        }
+    public void  armMove () {
+        float craneArmUp = gamepad2.left_trigger;
+        float craneArmDown = gamepad2.right_trigger;
+
+        if (craneArmUp > 0.5) {
+            robot.craneArm.setPower(powerMultiplier);
+        }
+        else if (craneArmUp == 0) {
+            robot.craneArm.setPower(0);
+        }
+
+        if (craneArmDown > 0.5) {
+            robot.craneArm.setPower(-powerMultiplier);
+        }
+        else if (craneArmDown == 0) {
+            robot.craneArm.setPower(0);
+        }
+
 
 
     }
