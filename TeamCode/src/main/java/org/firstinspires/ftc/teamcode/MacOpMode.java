@@ -101,7 +101,7 @@ import com.qualcomm.robotcore.util.Range;
             robot.leftDrive2.setPower(-powerMultiplier);
             robot.rightDrive2.setPower(powerMultiplier);
 
-        } else if (driveForward < 0) {
+        } else if (driveForward > 0) {
 
             telemetry.addData("Status", "Moving forward");
             telemetry.update();
@@ -110,7 +110,7 @@ import com.qualcomm.robotcore.util.Range;
             robot.rightDrive1.setPower(powerMultiplier);
             robot.leftDrive2.setPower(powerMultiplier);
             robot.rightDrive2.setPower(powerMultiplier);
-        } else if (driveBackward > 0) {
+        } else if (driveBackward < 0) {
 
             telemetry.addData("Status", "Moving backward");
             telemetry.update();
@@ -163,7 +163,7 @@ import com.qualcomm.robotcore.util.Range;
 
         boolean toggleIntakePressed = gamepad1.y;
 
-        if (toggleIntakePressed ) {
+        if (toggleIntakePressed) {
 
             if (startWheel) { //Intake is already running. So Sto
                 stopWheel = true;
@@ -181,7 +181,7 @@ import com.qualcomm.robotcore.util.Range;
                 telemetry.addData("Status", "Stopping spin..");
             }
             if (startWheel) {
-                robot.DJ.setPower(-powerMultiplier);
+                robot.DJ.setPower(powerMultiplier);
                 telemetry.addData("Status", "Starting spin..");
             }
 
@@ -189,29 +189,54 @@ import com.qualcomm.robotcore.util.Range;
 
         }
 
-        }
-    public void  armMove () {
+    }
+
+    public void armMove() {
         float craneArmUp = gamepad2.left_trigger;
         float craneArmDown = gamepad2.right_trigger;
+        double clawIn = gamepad2.left_stick_y;
+        double clawOut = gamepad2.left_stick_y;
+        boolean driveStop = false;
 
         if (craneArmUp > 0.5) {
             robot.craneArm.setPower(powerMultiplier);
-        }
-        else if (craneArmUp == 0) {
+        } else if (craneArmUp == 0) {
             robot.craneArm.setPower(0);
         }
 
         if (craneArmDown > 0.5) {
             robot.craneArm.setPower(-powerMultiplier);
-        }
-        else if (craneArmDown == 0) {
+        } else if (craneArmDown == 0) {
             robot.craneArm.setPower(0);
         }
 
+        if (gamepad2.left_stick_y == 0)
+            driveStop = true;
 
+        if (clawIn < 0) {
 
-    }
+            telemetry.addData("Status", "Moving forward");
+            telemetry.update();
+            robot.claw.setPower(powerMultiplier);
+            driveStop = false;
+
+        }  else if (clawOut > 0) {
+
+            telemetry.addData("Status", "Moving forward");
+            telemetry.update();
+            robot.claw.setPower(-powerMultiplier);
+            driveStop = false;
+
+        }    else if (driveStop == true) {
+
+    robot.claw.setPower(0);
+
 }
+
+
+        }
+    }
+
 
 
 

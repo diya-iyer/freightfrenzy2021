@@ -30,6 +30,7 @@ public class MacHardwarePushbot
     public DcMotor   rightDrive2   = null;
     public DcMotor   DJ   = null;
     public DcMotor craneArm = null;
+    public DcMotor claw = null;
 
 
     /* local OpMode members. */
@@ -53,6 +54,7 @@ public class MacHardwarePushbot
         rightDrive2  = hwMap.get(DcMotor.class, "right_drive2");
         DJ = hwMap.get(DcMotor.class, "dj");
         craneArm = hwMap.get(DcMotor.class, "crane_arm");
+        claw = hwMap.get(DcMotor.class, "claw");
 
         leftDrive1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         leftDrive2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
@@ -60,6 +62,7 @@ public class MacHardwarePushbot
         rightDrive2.setDirection(DcMotor.Direction.FORWARD);
         DJ.setDirection(DcMotor.Direction.FORWARD);
         craneArm.setDirection(DcMotor.Direction.FORWARD);
+        claw.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         leftDrive1.setPower(0);
@@ -68,6 +71,7 @@ public class MacHardwarePushbot
         rightDrive2.setPower(0);
         DJ.setPower(0);
         craneArm.setPower(0);
+        claw.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -77,6 +81,7 @@ public class MacHardwarePushbot
         rightDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         DJ.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         craneArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        claw.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
